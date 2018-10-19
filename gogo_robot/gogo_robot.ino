@@ -48,7 +48,6 @@ void setup() {
 void loop() {
 
   // look for a good SBUS packet from the receiver
-  //Todo: implement a lag kill mechanism via simple counter wait variable
   
   if(x8r.read(&channels[0], &failSafe, &lostFrame)){
     last_updated = millis();
