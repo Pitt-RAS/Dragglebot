@@ -21,6 +21,7 @@ cap = cv2.VideoCapture(1)
 
 cap.release()
 cv2.destroyAllWindows()'''
+
 Myserial.write('N'.encode())
 while True:
   ret, img = cap.read()
@@ -51,6 +52,8 @@ while True:
 
     else:
       Myserial.write('N'.encode())
+    
+    
     roi_gray = gray[y:y+h, x:x+w]
     roi_color = img[y:y+h, x:x+w]
     eyes = eye_cascade.detectMultiScale(roi_gray)
