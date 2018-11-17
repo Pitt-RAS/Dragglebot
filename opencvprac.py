@@ -30,18 +30,17 @@ while True:
   
   for (x,y,w,h) in faces:
     cv2.rectangle(img, (x,y), (x+w, y+h), (255,0,0), 2)
-    center = (x+w)/2
+    center = (x+w)/2;
     margin = 15;
     
     if center-margin < 220 and center+margin > 180 and len(faces) == 1:
       print("centered")
       Myserial.write('Y'.encode())
       print('Y')
-      Myserial.write('N'.encode())
-      print('N')
       
       
     elif(len(faces) == 1):
+
       print("not centered")
       if center+margin > 220:
         Myserial.write('R'.encode())
@@ -49,10 +48,6 @@ while True:
       else:
         Myserial.write('L'.encode())
         print('L')
-
-    else:
-      Myserial.write('N'.encode())
-    
     
     roi_gray = gray[y:y+h, x:x+w]
     roi_color = img[y:y+h, x:x+w]
@@ -60,6 +55,23 @@ while True:
     
     for(ex, ey, ew, eh) in eyes:
       cv2.rectangle(roi_color, (ex, ey), (ex+ew, ey+eh), (0,255,0), 2)
+
+  if(len(faces) == 0):
+    x1 = 0  
+    for x1 in range(15):
+      
+      time.sleep(0.01);
+      ret, img = cap.read()
+      gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+      faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+      
+      if(len(faces) == 1):
+       break;
+
+  if(x1 == 14):
+    Myserial.write('N'.encode());
+    print('N');
+        
 
   cv2.imshow('img', img)
   
